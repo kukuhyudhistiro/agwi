@@ -1,0 +1,208 @@
+======================================================================
+  Dataset: BSDS500
+======================================================================
+
+[INFO] Evaluating BSDS500/AGWi
+  [BSDS500/AGWi] 10/200
+  [BSDS500/AGWi] 20/200
+  [BSDS500/AGWi] 30/200
+  [BSDS500/AGWi] 40/200
+  [BSDS500/AGWi] 50/200
+  [BSDS500/AGWi] 60/200
+  [BSDS500/AGWi] 70/200
+  [BSDS500/AGWi] 80/200
+  [BSDS500/AGWi] 90/200
+  [BSDS500/AGWi] 100/200
+  [BSDS500/AGWi] 110/200
+  [BSDS500/AGWi] 120/200
+  [BSDS500/AGWi] 130/200
+  [BSDS500/AGWi] 140/200
+  [BSDS500/AGWi] 150/200
+  [BSDS500/AGWi] 160/200
+  [BSDS500/AGWi] 170/200
+  [BSDS500/AGWi] 180/200
+  [BSDS500/AGWi] 190/200
+  [BSDS500/AGWi] 200/200
+  Processed 200, skipped 0
+  ODS=0.5341 OIS=0.5643 AP=0.5162
+
+[INFO] Evaluating BSDS500/GWi
+  [BSDS500/GWi] 10/200
+  [BSDS500/GWi] 20/200
+  [BSDS500/GWi] 30/200
+  [BSDS500/GWi] 40/200
+  [BSDS500/GWi] 50/200
+  [BSDS500/GWi] 60/200
+  [BSDS500/GWi] 70/200
+  [BSDS500/GWi] 80/200
+  [BSDS500/GWi] 90/200
+  [BSDS500/GWi] 100/200
+  [BSDS500/GWi] 110/200
+  [BSDS500/GWi] 120/200
+  [BSDS500/GWi] 130/200
+  [BSDS500/GWi] 140/200
+  [BSDS500/GWi] 150/200
+  [BSDS500/GWi] 160/200
+  [BSDS500/GWi] 170/200
+  [BSDS500/GWi] 180/200
+  [BSDS500/GWi] 190/200
+  [BSDS500/GWi] 200/200
+  Processed 200, skipped 0
+  ODS=0.4058 OIS=0.4548 AP=0.3542
+
+[INFO] Evaluating BSDS500/GWC
+  [BSDS500/GWC] 10/200
+  [BSDS500/GWC] 20/200
+  [BSDS500/GWC] 30/200
+  [BSDS500/GWC] 40/200
+  [BSDS500/GWC] 50/200
+  [BSDS500/GWC] 60/200
+  [BSDS500/GWC] 70/200
+  [BSDS500/GWC] 80/200
+  [BSDS500/GWC] 90/200
+  [BSDS500/GWC] 100/200
+  [BSDS500/GWC] 110/200
+  [BSDS500/GWC] 120/200
+  [BSDS500/GWC] 130/200
+  [BSDS500/GWC] 140/200
+  [BSDS500/GWC] 150/200
+  [BSDS500/GWC] 160/200
+  [BSDS500/GWC] 170/200
+  [BSDS500/GWC] 180/200
+  [BSDS500/GWC] 190/200
+  [BSDS500/GWC] 200/200
+  Processed 200, skipped 0
+  ODS=0.3922 OIS=0.4548 AP=0.3033
+
+[INFO] Evaluating BSDS500/Canny
+  [BSDS500/Canny] 10/200
+  [BSDS500/Canny] 20/200
+  [BSDS500/Canny] 30/200
+  [BSDS500/Canny] 40/200
+  [BSDS500/Canny] 50/200
+  [BSDS500/Canny] 60/200
+  [BSDS500/Canny] 70/200
+  [BSDS500/Canny] 80/200
+  [BSDS500/Canny] 90/200
+  [BSDS500/Canny] 100/200
+  [BSDS500/Canny] 110/200
+  [BSDS500/Canny] 120/200
+  [BSDS500/Canny] 130/200
+  [BSDS500/Canny] 140/200
+  [BSDS500/Canny] 150/200
+  [BSDS500/Canny] 160/200
+  [BSDS500/Canny] 170/200
+  [BSDS500/Canny] 180/200
+  [BSDS500/Canny] 190/200
+  [BSDS500/Canny] 200/200
+  Processed 200, skipped 0
+  ODS=0.4441 OIS=0.4702 AP=0.0000
+
+[INFO] Evaluating BSDS500/Sobel
+  [BSDS500/Sobel] 10/200
+  [BSDS500/Sobel] 20/200
+  [BSDS500/Sobel] 30/200
+  [BSDS500/Sobel] 40/200
+  [BSDS500/Sobel] 50/200
+  [BSDS500/Sobel] 60/200
+  [BSDS500/Sobel] 70/200
+  [BSDS500/Sobel] 80/200
+  [BSDS500/Sobel] 90/200
+  [BSDS500/Sobel] 100/200
+  [BSDS500/Sobel] 110/200
+  [BSDS500/Sobel] 120/200
+  [BSDS500/Sobel] 130/200
+  [BSDS500/Sobel] 140/200
+  [BSDS500/Sobel] 150/200
+  [BSDS500/Sobel] 160/200
+  [BSDS500/Sobel] 170/200
+  [BSDS500/Sobel] 180/200
+  [BSDS500/Sobel] 190/200
+  [BSDS500/Sobel] 200/200
+  Processed 200, skipped 0
+  ODS=0.4635 OIS=0.5145 AP=0.4805
+
+[INFO] Evaluating BSDS500/PC
+  [BSDS500/PC] 10/200
+  [BSDS500/PC] 20/200
+  [BSDS500/PC] 30/200
+  [BSDS500/PC] 40/200
+  [BSDS500/PC] 50/200
+  [BSDS500/PC] 60/200
+  [BSDS500/PC] 70/200
+  [BSDS500/PC] 80/200
+  [BSDS500/PC] 90/200
+  [BSDS500/PC] 100/200
+  [BSDS500/PC] 110/200
+  [BSDS500/PC] 120/200
+  [BSDS500/PC] 130/200
+  [BSDS500/PC] 140/200
+  [BSDS500/PC] 150/200
+  [BSDS500/PC] 160/200
+  [BSDS500/PC] 170/200
+  [BSDS500/PC] 180/200
+  [BSDS500/PC] 190/200
+  [BSDS500/PC] 200/200
+  Processed 200, skipped 0
+  ODS=0.5086 OIS=0.5169 AP=0.4678
+
+======================================================================
+  Dataset: UDED
+======================================================================
+
+[INFO] Evaluating UDED/AGWi
+  [UDED/AGWi] 10/30
+  [UDED/AGWi] 20/30
+  [UDED/AGWi] 30/30
+  Processed 30, skipped 0
+  ODS=0.6680 OIS=0.6837 AP=0.6568
+
+[INFO] Evaluating UDED/GWi
+  [UDED/GWi] 10/30
+  [UDED/GWi] 20/30
+  [UDED/GWi] 30/30
+  Processed 30, skipped 0
+  ODS=0.5647 OIS=0.5768 AP=0.4878
+
+[INFO] Evaluating UDED/GWC
+  [UDED/GWC] 10/30
+  [UDED/GWC] 20/30
+  [UDED/GWC] 30/30
+  Processed 30, skipped 0
+  ODS=0.5021 OIS=0.5361 AP=0.3599
+
+[INFO] Evaluating UDED/Canny
+  [UDED/Canny] 10/30
+  [UDED/Canny] 20/30
+  [UDED/Canny] 30/30
+  Processed 30, skipped 0
+  ODS=0.7036 OIS=0.6825 AP=0.0000
+
+[INFO] Evaluating UDED/Sobel
+  [UDED/Sobel] 10/30
+  [UDED/Sobel] 20/30
+  [UDED/Sobel] 30/30
+  Processed 30, skipped 0
+  ODS=0.6374 OIS=0.6589 AP=0.6669
+
+[INFO] Evaluating UDED/PC
+  [UDED/PC] 10/30
+  [UDED/PC] 20/30
+  [UDED/PC] 30/30
+  Processed 30, skipped 0
+  ODS=0.5879 OIS=0.6053 AP=0.5291
+
+======================================================================
+SUMMARY
+======================================================================
+dataset method  n_images    ods_f    ois_f       ap
+BSDS500   AGWi       200 0.534078 0.564327 0.516208
+BSDS500    GWi       200 0.405776 0.454750 0.354192
+BSDS500    GWC       200 0.392178 0.454799 0.303339
+BSDS500  Canny       200 0.444101 0.470157 0.000000
+BSDS500  Sobel       200 0.463538 0.514499 0.480518
+BSDS500     PC       200 0.508598 0.516886 0.467805
+   UDED   AGWi        30 0.667991 0.683672 0.656847
+   UDED    GWi        30 0.564668 0.576785 0.487799
+   UDED    GWC        30 0.502110 0.536050 0.359894
+   UDED  Canny        30 0.703560 0.682458 0.000000

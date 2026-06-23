@@ -1,29 +1,112 @@
-# A-GWi: Adaptive Gabor Wavelet Imaginary
+# A-GWi: Adaptive Imaginary Gabor Wavelet for Edge-Based Boundary Detection
 
-Self-contained code package for the paper:
-**"Adaptive Imaginary Gabor Wavelet (A-GWi): Per-Pixel Kernel Modulation
-via Local Gradient Density for Edge Detection"**
+> **Per-pixel kernel modulation via local gradient density, without training or GPU.**
 
-Kukuh Yudhistiro, Nova Rijati, Ruri Suko Basuki (2026)
+This repository contains the evaluation code, experiment scripts, and figure-generation pipeline for the paper:
 
-This package is fully independent. It does not depend on any other paper's
-code. All six methods, the Berkeley evaluator, and figure generation are
-included here.
+**K. Yudhistiro, N. Rijati, and R. S. Basuki, "Adaptive Imaginary Gabor Wavelet (A-GWi): Per-Pixel Kernel Modulation via Local Gradient Density for Edge-Based Boundary Detection," _Journal of Engineering Science and Application (JESA)_, IIETA, 2026.**
 
 ---
 
-## Contents
+## Key Results
+
+A-GWi modulates the Gabor kernel frequency, scale, and size at each pixel based on a Sobel-derived local gradient density estimate (rho_L). It extends the static imaginary-only Gabor wavelet (GWi) to a spatially varying convolution, without training, GPU, or quantization.
+
+### ODS / OIS / AP
+
+| Method | BSDS500 ODS | BSDS500 OIS | BSDS500 AP | UDED ODS | UDED OIS | UDED AP |
+|--------|-------------|-------------|------------|----------|----------|---------|
+| Canny  | 0.444       | 0.470       | -          | 0.704    | 0.683    | -       |
+| Sobel  | 0.464       | 0.514       | 0.481      | 0.637    | 0.659    | 0.667   |
+| PC     | 0.509       | 0.517       | 0.468      | 0.588    | 0.605    | 0.529   |
+| GWC    | 0.392       | 0.455       | 0.303      | 0.502    | 0.536    | 0.360   |
+| GWi    | 0.406       | 0.455       | 0.354      | 0.565    | 0.577    | 0.488   |
+| **A-GWi** | **0.534** | **0.564** | **0.516** | **0.668** | **0.684** | **0.657** |
+
+A-GWi achieves the highest ODS on BSDS500 among all evaluated methods (+0.128 over static GWi, +0.142 over GWC), and the highest ODS among multi-orientation methods on UDED.
+
+### Density-Stratified ODS
+
+The adaptive gain concentrates in low-density and mid-density regions (over-detection reduction), while high-density performance remains competitive.
+
+| Dataset | Stratum | GWC   | GWi   | A-GWi |
+|---------|---------|-------|-------|-------|
+| BSDS500 | LOW     | 0.156 | 0.193 | **0.214** |
+| BSDS500 | MID     | 0.247 | 0.300 | **0.301** |
+| BSDS500 | HIGH    | 0.374 | **0.426** | 0.419 |
+| UDED    | LOW     | 0.190 | 0.139 | **0.303** |
+| UDED    | MID     | 0.334 | 0.399 | **0.418** |
+| UDED    | HIGH    | 0.633 | 0.673 | **0.725** |
+
+### Runtime (BSDS500, single-threaded, ms)
+
+| Method | Mean | Std  | Speed vs A-GWi |
+|--------|------|------|----------------|
+| Sobel  | 1.67 | 0.14 | 380x faster    |
+| Canny  | 1.45 | 0.69 | 438x faster    |
+| GWi    | 25.55| 1.38 | 24.8x faster   |
+| GWC    | 55.89| 3.08 | 11.3x faster   |
+| PC     | 410  | 6.49 | 1.5x faster    |
+| A-GWi  | 633  | 18.4 | 1.0x (ref)     |
+
+A-GWi is only 1.5x slower than Phase Congruency while achieving higher ODS (0.534 vs 0.509).
+
+---
+
+## Figures
+
+| | |
+|---|---|
+| ![PR Curves](figures/fig3_pr_curves.png) | ![Density Distribution](figures/fig6_density_distribution.png) |
+| **Figure 3.** Precision-recall curves | **Figure 6.** Local density distribution |
+
+| |
+|---|
+| ![BSDS500 Qualitative](figures/fig4_qualitative_BSDS500.png) |
+| **Figure 4.** Qualitative comparison on BSDS500 |
+
+| |
+|---|
+| ![UDED Qualitative](figures/fig5_qualitative_UDED.png) |
+| **Figure 5.** Qualitative comparison on UDED |
+
+| |
+|---|
+| ![Dense Object](figures/fig7_dense_object_comparison.png) |
+| **Figure 7.** Dense-object adaptivity with Shannon entropy |
+
+---
+
+## Repository Structure
 
 ```
-agwi_paper/
+agwi/
+  README.md
+  LICENSE
+  requirements.txt
   scripts/
-    methods.py          # All 6 methods: A-GWi, GWi, GWC, Canny, Sobel, PC
-    run_experiment.py   # Generate edge maps for all methods/datasets
-    evaluate.py         # Berkeley ODS/OIS/AP (greedy bipartite + KDTree)
-    make_figures.py     # Qualitative grids, density distribution, param maps
-    capture_env.py      # Environment snapshot for reproducibility
-  README.md             # This file
-  requirements.txt      # Dependencies
+    methods.py                  # 6 edge detectors incl. f0-based A-GWi
+    run_experiment.py           # Generate edge maps + runtime.csv
+    evaluate.py                 # Berkeley ODS/OIS/AP evaluation
+    evaluate_stratified.py      # Density-stratified ODS (LOW/MID/HIGH)
+    summarize_runtime.py        # Runtime aggregation for Table 4
+    generate_all_figures.py     # ALL paper figures (3-7) in one run
+    compare_agwi.py             # Single-image A-GWi comparison + entropy
+    make_figures.py             # Density distribution plots
+    capture_env.py              # Environment snapshot
+  data/
+    BSDS500/
+      images/test/              # 200 test images (.jpg)
+      groundTruth/test/         # 200 ground truth (.mat)
+    UDED/
+      imgs/                     # 30 images (.jpg)
+      gt/                       # 30 ground truth (.png)
+  output/                       # Edge maps (generated by run_experiment.py)
+  eval_results/                 # ODS/OIS/AP and stratified CSV outputs
+  runtime_logs/                 # Per-image runtime CSV
+  figures/                      # Paper figures (generated by generate_all_figures.py)
+  docs/
+    EXPERIMENT_PROCEDURE.md     # Step-by-step reproduction guide
 ```
 
 ---
@@ -31,144 +114,139 @@ agwi_paper/
 ## Installation
 
 ```bash
+git clone https://github.com/kukuhyudhistiro/agwi.git
+cd agwi
 pip install -r requirements.txt
 ```
 
-Critical: `numba` is required for A-GWi speed (≈50x faster). `phasepack`
-is required for the Phase Congruency baseline.
+**Python 3.10+** required. Key dependencies: `numpy`, `opencv-python`, `scipy`, `scikit-image`, `numba`, `matplotlib`, `pandas`, `phasepack`.
+
+Numba is required for A-GWi (provides ~50x speedup via JIT compilation of the per-pixel kernel loop).
 
 ---
 
-## Data layout
+## Datasets
 
-Place datasets under `data/`:
+**BSDS500**: Download from [Berkeley BSDS500](https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/bsds/). Place 200 test images in `data/BSDS500/images/test/` and ground truth `.mat` files in `data/BSDS500/groundTruth/test/`.
 
-```
-data/
-  BSDS500/
-    images/test/*.jpg
-    groundTruth/test/*.mat      # multi-annotator BSDS .mat
-  UDED/
-    imgs/*.jpg
-    gt/*.png                    # single-annotator PNG
-```
+**UDED**: Download from the [UDED repository](https://github.com/xavysp/UDED). Place 30 images in `data/UDED/imgs/` and ground truth `.png` files in `data/UDED/gt/`.
 
 ---
 
-## Workflow
+## Reproduction
 
-### 1. Capture environment (reproducibility)
+### Quick start (full pipeline)
+
 ```bash
+# 1. Capture environment
 python scripts/capture_env.py --output ./
-```
 
-### 2. Generate edge maps (all 6 methods)
-```bash
-python scripts/run_experiment.py \
-    --data-root ./data --output-root ./output \
-    --datasets BSDS500 UDED \
-    --methods AGWi GWi GWC Canny Sobel PC
-```
-Single-threaded. Estimated time on i5-14400: BSDS500 (200 img) A-GWi ~18 min,
-baselines ~2 min total. UDED ~3 min.
-
-Quick dry run first:
-```bash
+# 2. Generate edge maps + runtime (~25 min, A-GWi dominates)
 python scripts/run_experiment.py --data-root ./data --output-root ./output \
-    --datasets BSDS500 --methods AGWi GWi Canny --max-images 5
-```
+    --datasets BSDS500 UDED --methods AGWi GWi GWC Canny Sobel PC
 
-### 3. Evaluate (ODS/OIS/AP)
-```bash
-python scripts/evaluate.py \
-    --data-root ./data --output-root ./output \
-    --results-dir ./eval_results \
-    --datasets BSDS500 UDED \
-    --methods AGWi GWi GWC Canny Sobel PC \
-    --n-thresholds 99 --max-dist 0.0075
-```
-Output: `eval_results/ods_summary.csv`
-
-### 4. Figures
-```bash
-python scripts/make_figures.py \
-    --data-root ./data --output-root ./output \
-    --figures-dir ./figures --dataset BSDS500 \
-    --image-ids 100007 101085 3096
-```
-
----
-
-## Ablation studies
-
-All A-GWi hyperparameters are CLI flags. Each ablation run writes to a
-different method folder, then evaluate all together.
-
-### Ablation 1: wavelength range (lambda_max)
-```bash
-for LMAX in 6 7 8 9 10; do
-  python scripts/run_experiment.py --data-root ./data --output-root ./output \
-    --datasets BSDS500 --methods AGWi --lambda-max $LMAX \
-    --agwi-name "AGWi_lmax${LMAX}"
-done
+# 3. Evaluate ODS/OIS/AP (Tables 2, 3)
 python scripts/evaluate.py --data-root ./data --output-root ./output \
-    --results-dir ./eval_results --datasets BSDS500 \
-    --methods AGWi_lmax6 AGWi_lmax7 AGWi_lmax8 AGWi_lmax9 AGWi_lmax10
+    --results-dir ./eval_results --datasets BSDS500 UDED \
+    --methods AGWi GWi GWC Canny Sobel PC --n-thresholds 99 --max-dist 0.0075
+
+# 4. Density-stratified ODS (Tables 5, 6)
+python scripts/evaluate_stratified.py --data-root ./data --output-root ./output \
+    --results-dir ./eval_results --datasets BSDS500 UDED \
+    --methods AGWi GWi GWC --n-thresholds 99
+
+# 5. Runtime summary (Table 4)
+python scripts/summarize_runtime.py --runtime-csv runtime_logs/runtime.csv --dataset BSDS500
+
+# 6. Generate ALL paper figures (Figures 3-7)
+python scripts/generate_all_figures.py --data-root ./data --output-root ./output \
+    --eval-results ./eval_results --figures-dir ./figures
 ```
 
-### Ablation 2: sigmoid steepness (k_s)
-```bash
-for KS in 5 10 15 20 25; do
-  python scripts/run_experiment.py --data-root ./data --output-root ./output \
-    --datasets BSDS500 --methods AGWi --k-steepness $KS \
-    --agwi-name "AGWi_ks${KS}"
-done
-```
+### Script-to-paper element map
 
-### Ablation 3: density estimator
-```bash
-python scripts/run_experiment.py --data-root ./data --output-root ./output \
-    --datasets BSDS500 --methods AGWi --density sobel --agwi-name AGWi_sobel
-python scripts/run_experiment.py --data-root ./data --output-root ./output \
-    --datasets BSDS500 --methods AGWi --density variance --agwi-name AGWi_variance
-```
+| Paper Element | Script | Output |
+|---|---|---|
+| Table 2 (BSDS500 ODS/OIS/AP) | `evaluate.py` | `eval_results/ods_summary.csv` |
+| Table 3 (UDED ODS/OIS/AP) | `evaluate.py` | `eval_results/ods_summary.csv` |
+| Table 4 (runtime) | `summarize_runtime.py` | terminal output |
+| Table 5 (BSDS500 stratified) | `evaluate_stratified.py` | `eval_results/ods_stratified.csv` |
+| Table 6 (UDED stratified) | `evaluate_stratified.py` | `eval_results/ods_stratified.csv` |
+| Figure 3 (PR curves) | `generate_all_figures.py` | `figures/fig3_pr_curves.png` |
+| Figure 4 (BSDS500 qualitative) | `generate_all_figures.py` | `figures/fig4_qualitative_BSDS500.png` |
+| Figure 5 (UDED qualitative) | `generate_all_figures.py` | `figures/fig5_qualitative_UDED.png` |
+| Figure 6 (density distribution) | `generate_all_figures.py` | `figures/fig6_density_distribution.png` |
+| Figure 7 (dense-object comparison) | `generate_all_figures.py` | `figures/fig7_dense_object_comparison.png` |
+
+### Hardware and threading
+
+All experiments are single-threaded: `OMP_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `NUMBA_NUM_THREADS=1`, `cv2.setNumThreads(1)`. A Numba warm-up pass is performed before timing to exclude JIT compilation cost.
+
+Reported results: Intel Core i5-14400, 16 GB DDR4, Windows 11.
 
 ---
 
-## A-GWi parameters (defaults)
+## A-GWi Algorithm
 
-| Param | Value | Meaning |
-|-------|-------|---------|
-| f_min | 0.05 | sparse region frequency (broad structure) |
-| f_max | 0.45 | dense region frequency (fine detail) |
-| k_steepness | 25.0 | sigmoid transition sharpness |
-| n_orientations | 8 | 22.5 deg intervals |
-| aspect (gamma) | 0.5 | sigma_y = sigma_x / aspect |
-| sigma | (1/(pi*f0))*sqrt(ln2/2) | Gabor bandwidth relation |
-| kernel_size | 7 | fixed 7x7 |
-| density | Sobel(5) + GaussianBlur(5) | rho_L estimation |
+A-GWi has six stages:
 
-Adaptive logic (f0 formulation): dense (rho->1) -> high f0, small sigma (sharp); sparse (rho->0) -> low f0, large sigma (broad).
+1. **Preprocessing**: BT.601 grayscale, histogram equalization, normalization to [0,1]
+2. **Density estimation**: Sobel gradient energy (ksize=5) + GaussianBlur(5x5) to produce rho_L
+3. **Adaptive parameters**: f0, sigma, k computed per pixel from rho_L via sigmoid mapping
+4. **Kernel construction**: Per-pixel imaginary (sine) Gabor kernel for N=8 orientations
+5. **Spatially varying convolution**: Unique kernel at each pixel, each orientation
+6. **Magnitude extraction**: Cross-orientation max-pooling of absolute response
 
----
+Fixed parameters:
+```
+f_min=0.05  f_max=0.45  k_steepness=25.0  orientations=8  gamma=0.5
+kernel_size=7  sigma=(1/(pi*f0))*sqrt(ln2/2)
+```
 
-## Method summary
-
-| Method | Type | Kernel | Magnitude |
-|--------|------|--------|-----------|
-| Canny | gradient + NMS | adaptive threshold | binary |
-| Sobel | first-order gradient | 3x3 | sqrt(gx^2+gy^2) |
-| PC | log-Gabor multi-scale | 4 scale, 6 orient | max moment |
-| GWC | complex Gabor | k=7, lambda=4, 8 orient | sqrt(re^2+im^2) |
-| GWi | imaginary Gabor | k=7, lambda=4, 8 orient | abs |
-| A-GWi | adaptive imaginary Gabor (SVC) | per-pixel k,lambda | abs |
+Dense regions (high rho_L) get high-frequency, compact kernels for sharp boundary localization.
+Sparse regions (low rho_L) get low-frequency, broad kernels for large-scale structure.
 
 ---
 
-## Reproducibility
+## Evaluation Protocol
 
-- All runs single-threaded (OMP/MKL/NUMBA threads = 1, cv2.setNumThreads(1))
-- Numba JIT warmed up before timing
-- Evaluation: 99 thresholds, morphological thinning, greedy bipartite
-  matching via KDTree, tolerance 0.0075 x diagonal
-- Environment captured via capture_env.py
+Berkeley protocol following [Arbelaez et al., TPAMI 2011]:
+- 99 uniformly spaced thresholds in [0.01, 0.99]
+- Morphological thinning (skimage.morphology.thin)
+- Greedy bipartite matching via KDTree
+- Tolerance: 0.0075 x image diagonal
+- Metrics: ODS, OIS, AP
+- Multi-annotator matching for BSDS500
+
+---
+
+## Citation
+
+If you use this code, please cite:
+
+```bibtex
+@article{yudhistiro2026agwi,
+  title   = {Adaptive Imaginary Gabor Wavelet ({A}-{GW}i): Per-Pixel Kernel
+             Modulation via Local Gradient Density for Edge-Based Boundary
+             Detection},
+  author  = {Yudhistiro, Kukuh and Rijati, Nova and Basuki, Ruri Suko},
+  journal = {Journal of Engineering Science and Application (JESA)},
+  year    = {2026},
+  note    = {IIETA}
+}
+```
+
+## Related Work
+
+- **GWi+ODPS** (Paper 1): [github.com/kukuhyudhistiro/gwi-odps](https://github.com/kukuhyudhistiro/gwi-odps)
+  Imaginary-only Gabor wavelet with orientation-aware double-peak suppression.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## Author Contributions
+
+Conceptualization, K. Yudhistiro, R.S. Basuki, and N. Rijati; methodology and software, K. Yudhistiro; validation, all authors; formal analysis, data curation, and visualization, K. Yudhistiro; writing (original draft), K. Yudhistiro; writing (review and editing), R.S. Basuki and N. Rijati; supervision, R.S. Basuki and N. Rijati.

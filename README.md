@@ -4,7 +4,7 @@
 
 This repository contains the evaluation code, experiment scripts, and figure-generation pipeline for the paper:
 
-**K. Yudhistiro, N. Rijati, and R. S. Basuki, "Adaptive Imaginary Gabor Wavelet (A-GWi): Per-Pixel Kernel Modulation via Local Gradient Density for Edge-Based Boundary Detection," _Journal of Engineering Science and Application (JESA)_, IIETA, 2026.**
+**K. Yudhistiro, N. Rijati, and R. S. Basuki, "Adaptive Imaginary Gabor Wavelet (A-GWi): Per-Pixel Kernel Modulation via Local Gradient Density for Edge-Based Boundary Detection,"**
 
 ---
 

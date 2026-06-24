@@ -230,7 +230,7 @@ If you use this code, please cite:
              Modulation via Local Gradient Density for Edge-Based Boundary
              Detection},
   author  = {Yudhistiro, Kukuh and Rijati, Nova and Basuki, Ruri Suko},
-  journal = {Journal of Engineering Science and Application (JESA)},
+  journal = {Journal Européen des Systèmes Automatisés (JESA)},
   year    = {2026},
   note    = {IIETA}
 }

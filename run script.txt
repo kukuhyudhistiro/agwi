@@ -32,50 +32,9 @@ python scripts/make_figures.py --data-root ./data --output-root ./output `
     --image-ids 3063 29030 128035
 
 
-ablation 1
-$FMAXs = 0.25, 0.35, 0.45, 0.55
-foreach ($FMAX in $FMAXs) {
-  python .\scripts\run_experiment.py --data-root .\data --output-root .\output `
-    --datasets BSDS500 --methods AGWi --f-max $FMAX `
-    --agwi-name "AGWi_fmax$FMAX"
-}
-
-ablation 2
-python .\scripts\evaluate.py --data-root .\data --output-root .\output `
-  --results-dir .\eval_results --datasets BSDS500 `
-  --methods AGWi_fmax0.25 AGWi_fmax0.35 AGWi_fmax0.45 AGWi_fmax0.55
-
-ablation 3
-
-hasil simpan runtime_ablasi_3_AGWi_sobel
-python scripts/run_experiment.py --data-root ./data --output-root ./output `
-    --datasets BSDS500 --methods AGWi --density sobel --agwi-name AGWi_sobel
-
-hasil simpan runtime_ablasi_3_AGWi_variance
-
-python scripts/run_experiment.py --data-root ./data --output-root ./output `
-    --datasets BSDS500 --methods AGWi --density variance --agwi-name AGWi_variance
-
-python scripts/evaluate.py --data-root ./data --output-root ./output `
-    --results-dir ./eval_results --datasets BSDS500 `
-    --methods AGWi_sobel AGWi_variance
-
-
-
-
 python scripts/run_experiment.py --data-root ./data --output-root ./output_timing `
     --datasets BSDS500 --methods AGWi GWi GWC Canny Sobel PC `
     --runtime-csv runtime_logs/runtime.csv
-
-fig 4-5
-python scripts/generate_final_figures.py --data-root ./data --output-root ./output `
-    --figures-dir ./figures --datasets BSDS500 UDED
-
-fig 6
-python scripts/make_figures.py --data-root ./data --output-root ./output `
-    --figures-dir ./figures --dataset BSDS500 `
-    --image-ids 3063 29030 128035
-
 
 python scripts/generate_all_figures.py `
     --data-root ./data --output-root ./output `
